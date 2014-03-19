@@ -3,7 +3,7 @@ module Main where
 import Prelude
 import Control.Monad
 import Control.Monad.Eff
-import System.ReadLine
+import Node.ReadLine
 import Debug.Trace
 import Data.Tuple
 

@@ -1,4 +1,4 @@
-module System.ReadLine where
+module Node.ReadLine where
 
 import Data.Tuple
 import Control.Monad.Eff
@@ -11,7 +11,7 @@ foreign import data InputStream :: *
 
 foreign import data OutputStream :: *
 
-foreign import process :: { stderr :: OutputStream, stdout :: OutputStream, stdin :: System.ReadLine.InputStream }
+foreign import process :: { stderr :: OutputStream, stdout :: OutputStream, stdin :: InputStream }
 
 type Completer eff = String -> Eff eff (Tuple [String] String)
 
@@ -27,7 +27,7 @@ foreign import setLineHandler
   \      return readline;\
   \    };\
   \  };\
-  \};" :: forall eff. LineHandler eff -> Interface -> Control.Monad.Eff.Eff (console :: System.ReadLine.Console | eff) System.ReadLine.Interface
+  \};" :: forall eff. LineHandler eff -> Interface -> Eff (console :: Console | eff) Interface
 
 foreign import prompt 
   "function prompt(readline) {\
@@ -35,7 +35,7 @@ foreign import prompt
   \    readline.prompt();\
   \    return readline;\
   \  };\
-  \};" :: forall eff. Interface -> Control.Monad.Eff.Eff (console :: Console | eff) System.ReadLine.Interface
+  \};" :: forall eff. Interface -> Eff (console :: Console | eff) Interface
 
 foreign import setPrompt 
   "function setPrompt(prompt) {\
@@ -47,7 +47,7 @@ foreign import setPrompt
   \      };\
   \    };\
   \  };\
-  \}" :: forall eff. Prim.String -> Prim.Number -> Interface -> Control.Monad.Eff.Eff (console :: Console | eff) System.ReadLine.Interface
+  \}" :: forall eff. Prim.String -> Prim.Number -> Interface -> Eff (console :: Console | eff) Interface
 
 foreign import createInterface 
   "function createInterface(input) {\
@@ -66,6 +66,6 @@ foreign import createInterface
   \      };\
   \    };\
   \  };\
-  \}" :: forall eff. InputStream -> OutputStream -> System.ReadLine.Completer eff -> Control.Monad.Eff.Eff (console :: System.ReadLine.Console | eff) System.ReadLine.Interface
+  \}" :: forall eff. InputStream -> OutputStream -> Completer eff -> Eff (console :: Console | eff) Interface
 
 
