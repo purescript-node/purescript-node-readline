@@ -1,6 +1,6 @@
 {
   "name": "purescript-node-readline",
-  "homepage": "https://github.com/purescript-contrib/purescript-node-readline"
+  "homepage": "https://github.com/purescript-contrib/purescript-node-readline",
   "keywords": [
     "purescript"
   ],
