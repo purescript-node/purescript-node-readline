@@ -12,7 +12,7 @@
 
     data Interface :: *
 
-    type LineHandler eff = String -> Eff eff {  }
+    type LineHandler eff = String -> Eff eff Unit
 
     data OutputStream :: *
 

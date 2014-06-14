@@ -15,7 +15,7 @@ foreign import process :: { stderr :: OutputStream, stdout :: OutputStream, stdi
 
 type Completer eff = String -> Eff eff (Tuple [String] String)
 
-type LineHandler eff = String -> Eff eff {}
+type LineHandler eff = String -> Eff eff Unit
 
 foreign import setLineHandler 
   "function setLineHandler(callback) {\
