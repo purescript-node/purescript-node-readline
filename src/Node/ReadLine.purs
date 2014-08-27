@@ -1,6 +1,5 @@
 module Node.ReadLine where
 
-import Data.Tuple
 import Control.Monad.Eff
 
 foreign import data Console :: !
@@ -13,21 +12,22 @@ foreign import data OutputStream :: *
 
 foreign import process :: { stderr :: OutputStream, stdout :: OutputStream, stdin :: InputStream }
 
-type Completer eff = String -> Eff eff (Tuple [String] String)
+type Completer eff = String -> Eff eff { completions :: [String], matched :: String }
 
-type LineHandler eff = String -> Eff eff Unit
+type LineHandler eff a = String -> Eff eff a 
 
 foreign import setLineHandler 
   "function setLineHandler(callback) {\
   \  return function(readline) {\
   \    return function() {\
+  \      readline.removeAllListeners('line');\
   \      readline.on('line', function (line) {\
   \        callback(line)();\
   \      });\
   \      return readline;\
   \    };\
   \  };\
-  \};" :: forall eff. LineHandler eff -> Interface -> Eff (console :: Console | eff) Interface
+  \};" :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: Console | eff) Interface
 
 foreign import prompt 
   "function prompt(readline) {\
@@ -59,8 +59,8 @@ foreign import createInterface
   \          input: input,\
   \          output: output,\
   \          completer: function(line) {\
-  \            var completions = completer(line)();\
-  \            return completions.values;\
+  \            var res = completer(line)();\
+  \            return [res.completions, res.suffix];\
   \          }\
   \        });\
   \      };\
@@ -68,4 +68,6 @@ foreign import createInterface
   \  };\
   \}" :: forall eff. InputStream -> OutputStream -> Completer eff -> Eff (console :: Console | eff) Interface
 
+noCompletion :: forall eff. Completer eff
+noCompletion s = return { completions: [], matched: s }
 

@@ -4,7 +4,7 @@
 
 ### Types
 
-    type Completer eff = String -> Eff eff (Tuple [String] String)
+    type Completer eff = String -> Eff eff { matched :: String, completions :: [String] }
 
     data Console :: !
 
@@ -20,6 +20,8 @@
 ### Values
 
     createInterface :: forall eff. InputStream -> OutputStream -> Completer eff -> Eff (console :: Console | eff) Interface
+
+    noCompletion :: forall eff. Completer eff
 
     process :: { stdin :: InputStream, stdout :: OutputStream, stderr :: OutputStream }
 
