@@ -12,7 +12,7 @@
 
     data Interface :: *
 
-    type LineHandler eff = String -> Eff eff Unit
+    type LineHandler eff a = String -> Eff (console :: Console | eff) a
 
     data OutputStream :: *
 
@@ -27,6 +27,6 @@
 
     prompt :: forall eff. Interface -> Eff (console :: Console | eff) Interface
 
-    setLineHandler :: forall eff. LineHandler eff -> Interface -> Eff (console :: Console | eff) Interface
+    setLineHandler :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: Console | eff) Interface
 
     setPrompt :: forall eff. String -> Number -> Interface -> Eff (console :: Console | eff) Interface
