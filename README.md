@@ -1,32 +1,13 @@
-# Module Documentation
+# purescript-node-readline
 
-## Module Node.ReadLine
+A low-level PureScript interface to the Node `readline` API.
 
-### Types
+## Installation
 
-    type Completer eff = String -> Eff eff { matched :: String, completions :: [String] }
+```
+bower install purescript-readline
+```
 
-    data Console :: !
+## Module documentation
 
-    data InputStream :: *
-
-    data Interface :: *
-
-    type LineHandler eff a = String -> Eff (console :: Console | eff) a
-
-    data OutputStream :: *
-
-
-### Values
-
-    createInterface :: forall eff. InputStream -> OutputStream -> Completer eff -> Eff (console :: Console | eff) Interface
-
-    noCompletion :: forall eff. Completer eff
-
-    process :: { stdin :: InputStream, stdout :: OutputStream, stderr :: OutputStream }
-
-    prompt :: forall eff. Interface -> Eff (console :: Console | eff) Interface
-
-    setLineHandler :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: Console | eff) Interface
-
-    setPrompt :: forall eff. String -> Number -> Interface -> Eff (console :: Console | eff) Interface
+- [Node.ReadLine](docs/Node/ReadLine.md)

@@ -1,73 +1,39 @@
+-- | This module provides a binding to the Node `readline` API.
+
 module Node.ReadLine where
 
+import Prelude (return)
+
 import Control.Monad.Eff
+import Control.Monad.Eff.Console
 
-foreign import data Console :: !
-
+-- | A handle to a console interface.
+-- |
+-- | A handle can be created with the `createInterface` function.
 foreign import data Interface :: *
 
-foreign import data InputStream :: *
+-- | A function which performs tab completion.
+-- |
+-- | This function takes the partial command as input, and returns a collection of 
+-- | completions, as well as the matched portion of the input string.
+type Completer eff = String -> Eff (console :: CONSOLE | eff) { completions :: Array String, matched :: String }
 
-foreign import data OutputStream :: *
+-- | A function which handles input from the user.
+type LineHandler eff a = String -> Eff (console :: CONSOLE | eff) a 
 
-foreign import process :: { stderr :: OutputStream, stdout :: OutputStream, stdin :: InputStream }
+-- | Set the current line handler function.
+foreign import setLineHandler :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: CONSOLE | eff) Interface
 
-type Completer eff = String -> Eff eff { completions :: [String], matched :: String }
+-- | Prompt the user for input on the specified `Interface`.
+foreign import prompt :: forall eff. Interface -> Eff (console :: CONSOLE | eff) Interface
 
-type LineHandler eff a = String -> Eff (console :: Console | eff) a 
+-- | Set the prompt.
+foreign import setPrompt :: forall eff. String -> Int -> Interface -> Eff (console :: CONSOLE | eff) Interface
 
-foreign import setLineHandler 
-  "function setLineHandler(callback) {\
-  \  return function(readline) {\
-  \    return function() {\
-  \      readline.removeAllListeners('line');\
-  \      readline.on('line', function (line) {\
-  \        callback(line)();\
-  \      });\
-  \      return readline;\
-  \    };\
-  \  };\
-  \};" :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: Console | eff) Interface
+-- | Create an interface with the specified completion function.
+foreign import createInterface :: forall eff. Completer eff -> Eff (console :: CONSOLE | eff) Interface
 
-foreign import prompt 
-  "function prompt(readline) {\
-  \  return function() {\
-  \    readline.prompt();\
-  \    return readline;\
-  \  };\
-  \};" :: forall eff. Interface -> Eff (console :: Console | eff) Interface
-
-foreign import setPrompt 
-  "function setPrompt(prompt) {\
-  \  return function(length) {\
-  \    return function(readline) {\
-  \      return function() {\
-  \        readline.setPrompt(prompt, length);\
-  \        return readline;\
-  \      };\
-  \    };\
-  \  };\
-  \}" :: forall eff. Prim.String -> Prim.Number -> Interface -> Eff (console :: Console | eff) Interface
-
-foreign import createInterface 
-  "function createInterface(input) {\
-  \  return function(output) {\
-  \    return function(completer) {\
-  \      return function() {\
-  \        var readline = require('readline');\
-  \        return readline.createInterface({\
-  \          input: input,\
-  \          output: output,\
-  \          completer: function(line) {\
-  \            var res = completer(line)();\
-  \            return [res.completions, res.suffix];\
-  \          }\
-  \        });\
-  \      };\
-  \    };\
-  \  };\
-  \}" :: forall eff. InputStream -> OutputStream -> Completer eff -> Eff (console :: Console | eff) Interface
-
+-- | A completion function which offers no completions.
 noCompletion :: forall eff. Completer eff
 noCompletion s = return { completions: [], matched: s }
 
