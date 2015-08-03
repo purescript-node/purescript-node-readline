@@ -46,3 +46,10 @@ exports.createInterface = function(completer) {
         });
     };
 };
+
+exports.close = function(readline) {
+    return function() {
+        readline.close();
+        return readline;
+    };
+};

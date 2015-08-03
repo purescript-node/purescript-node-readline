@@ -12,8 +12,12 @@ main = do
   
   let
     lineHandler s = do
-      log $ "You typed: " ++ s
-      prompt interface
+      if s == "quit"
+        then do
+          close interface
+        else do
+          log $ "You typed: " ++ s
+          prompt interface
   
   setPrompt "> " 2 interface
   prompt interface
