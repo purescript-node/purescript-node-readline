@@ -3,8 +3,8 @@
 
 // module Node.ReadLine
 
-exports.setLineHandler = function(callback) {
-    return function(readline) {
+exports.setLineHandler = function(readline) {
+    return function(callback) {
         return function() {
             readline.removeAllListeners('line');
             readline.on('line', function(line) {
