@@ -63,6 +63,14 @@ createInterface :: forall eff. Completer eff -> Eff (console :: CONSOLE | eff) I
 
 Create an interface with the specified completion function.
 
+#### `close`
+
+``` purescript
+close :: forall eff. Interface -> Eff (console :: CONSOLE | eff) Interface
+```
+
+Close the specified `Interface`.
+
 #### `noCompletion`
 
 ``` purescript

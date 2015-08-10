@@ -33,6 +33,9 @@ foreign import setPrompt :: forall eff. String -> Int -> Interface -> Eff (conso
 -- | Create an interface with the specified completion function.
 foreign import createInterface :: forall eff. Completer eff -> Eff (console :: CONSOLE | eff) Interface
 
+-- | Close the specified `Interface`.
+foreign import close :: forall eff. Interface -> Eff (console :: CONSOLE | eff) Interface
+
 -- | A completion function which offers no completions.
 noCompletion :: forall eff. Completer eff
 noCompletion s = return { completions: [], matched: s }
