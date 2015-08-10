@@ -10,15 +10,11 @@ import Node.ReadLine
 main = do
   interface <- createInterface noCompletion
   
-  let
-    lineHandler s = do
-      if s == "quit"
-        then do
-          close interface
-        else do
-          log $ "You typed: " ++ s
-          prompt interface
-  
   setPrompt "> " 2 interface
   prompt interface
-  setLineHandler lineHandler interface
+  setLineHandler interface $ \s ->
+    if s == "quit"
+       then close interface
+       else do
+        log $ "You typed: " ++ s
+        prompt interface

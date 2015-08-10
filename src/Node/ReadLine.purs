@@ -22,7 +22,7 @@ type Completer eff = String -> Eff (console :: CONSOLE | eff) { completions :: A
 type LineHandler eff a = String -> Eff (console :: CONSOLE | eff) a 
 
 -- | Set the current line handler function.
-foreign import setLineHandler :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: CONSOLE | eff) Interface
+foreign import setLineHandler :: forall eff a. Interface -> LineHandler eff a -> Eff (console :: CONSOLE | eff) Interface
 
 -- | Prompt the user for input on the specified `Interface`.
 foreign import prompt :: forall eff. Interface -> Eff (console :: CONSOLE | eff) Interface

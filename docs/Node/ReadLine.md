@@ -34,7 +34,7 @@ A function which handles input from the user.
 #### `setLineHandler`
 
 ``` purescript
-setLineHandler :: forall eff a. LineHandler eff a -> Interface -> Eff (console :: CONSOLE | eff) Interface
+setLineHandler :: forall eff a. Interface -> LineHandler eff a -> Eff (console :: CONSOLE | eff) Interface
 ```
 
 Set the current line handler function.
