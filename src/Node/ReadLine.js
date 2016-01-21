@@ -3,16 +3,27 @@
 
 // module Node.ReadLine
 
-exports.setLineHandler = function(readline) {
-    return function(callback) {
-        return function() {
-            readline.removeAllListeners('line');
-            readline.on('line', function(line) {
-                callback(line)();
-            });
-            return readline;
-        };
-    };
+exports.createInterfaceImpl = function(options) {
+  return function() {
+    var readline = require('readline');
+    return readline.createInterface({
+      input: options.input,
+      output: options.output,
+      completer: options.completer && function(line) {
+        var res = options.completer(line)();
+        return [res.completions, res.suffix];
+      },
+      terminal: options.terminal,
+      historySize: options.historySize
+    });
+  };
+};
+
+exports.close = function(readline) {
+  return function() {
+    readline.close();
+    return readline;
+  };
 };
 
 exports.prompt = function(readline) {
@@ -33,23 +44,14 @@ exports.setPrompt = function(prompt) {
     };
 };
 
-exports.createInterface = function(completer) {
+exports.setLineHandler = function(readline) {
+  return function(callback) {
     return function() {
-        var readline = require('readline');
-        return readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-            completer: function(line) {
-                var res = completer(line)();
-                return [res.completions, res.suffix];
-            }
-        });
+      readline.removeAllListeners('line');
+      readline.on('line', function(line) {
+        callback(line)();
+      });
+      return readline;
     };
-};
-
-exports.close = function(readline) {
-    return function() {
-        readline.close();
-        return readline;
-    };
+  };
 };
