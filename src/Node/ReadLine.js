@@ -1,5 +1,5 @@
 /* global exports */
-"use strict";
+'use strict';
 
 // module Node.ReadLine
 
@@ -22,14 +22,12 @@ exports.createInterfaceImpl = function(options) {
 exports.close = function(readline) {
   return function() {
     readline.close();
-    return readline;
   };
 };
 
 exports.prompt = function(readline) {
     return function() {
         readline.prompt();
-        return readline;
     };
 };
 
@@ -38,7 +36,6 @@ exports.setPrompt = function(prompt) {
         return function(readline) {
             return function() {
                 readline.setPrompt(prompt, length);
-                return readline;
             };
         };
     };
@@ -51,7 +48,6 @@ exports.setLineHandler = function(readline) {
       readline.on('line', function(line) {
         callback(line)();
       });
-      return readline;
     };
   };
 };

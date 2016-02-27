@@ -19,12 +19,11 @@ module Node.ReadLine
   , close
   ) where
 
-import Prelude (return, (<>), ($))
+import Prelude (Unit, return, (<>), ($))
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
 import Control.Monad.Eff.Exception (EXCEPTION)
 import Data.Foreign (Foreign)
-import Data.Maybe (Maybe(Just))
 import Data.Options (Options, Option, (:=), options, opt)
 import Node.Process (stdin, stdout)
 import Node.Stream (Readable, Writable)
@@ -39,8 +38,9 @@ foreign import data READLINE :: !
 
 foreign import createInterfaceImpl :: forall eff.
                                       Foreign
-                                   -> Eff ( readline :: READLINE | eff )
-                                          Interface
+                                   -> Eff ( readline :: READLINE
+                                          | eff
+                                          ) Interface
 
 -- | Options passed to `readline`'s `createInterface`
 data InterfaceOptions
@@ -66,11 +66,13 @@ type Completer eff = String -> Eff eff { completions :: Array String
 
 -- | Builds an interface with the specified options.
 createInterface :: forall r eff.
-                   Readable r eff
+                   Readable r ( readline :: READLINE
+                              | eff
+                              )
                 -> Options InterfaceOptions
                 -> Eff ( readline :: READLINE
-                       | eff )
-                       Interface
+                       | eff
+                       ) Interface
 createInterface input opts = createInterfaceImpl
   $ options $ opts
            <> opt "input" := input
@@ -80,12 +82,13 @@ createConsoleInterface :: forall eff.
                           Completer ( readline :: READLINE
                                     , console :: CONSOLE
                                     , err :: EXCEPTION
-                                    | eff )
+                                    | eff
+                                    )
                        -> Eff ( readline :: READLINE
                               , console :: CONSOLE
                               , err :: EXCEPTION
-                              | eff )
-                              Interface
+                              | eff
+                              ) Interface
 createConsoleInterface compl = createInterface stdin $ output := stdout
                                                     <> completer := compl
 
@@ -96,19 +99,25 @@ noCompletion s = return { completions: [], matched: s }
 -- | Prompt the user for input on the specified `Interface`.
 foreign import prompt :: forall eff.
                          Interface
-                      -> Eff ( readline :: READLINE | eff ) Interface
+                      -> Eff ( readline :: READLINE
+                             | eff
+                             ) Unit
 
 -- | Set the prompt.
 foreign import setPrompt :: forall eff.
                             String
                          -> Int
                          -> Interface
-                         -> Eff ( readline :: READLINE | eff ) Interface
+                         -> Eff ( readline :: READLINE
+                                | eff
+                                ) Unit
 
 -- | Close the specified `Interface`.
 foreign import close :: forall eff.
                         Interface
-                     -> Eff ( readline :: READLINE | eff ) Interface
+                     -> Eff ( readline :: READLINE
+                            | eff
+                            ) Unit
 
 -- | A function which handles each line of input.
 type LineHandler eff a = String -> Eff eff a
@@ -116,5 +125,9 @@ type LineHandler eff a = String -> Eff eff a
 -- | Set the current line handler function.
 foreign import setLineHandler :: forall eff a.
                                  Interface
-                              -> LineHandler ( readline :: READLINE | eff ) a
-                              -> Eff ( readline :: READLINE | eff ) Interface
+                              -> LineHandler ( readline :: READLINE
+                                             | eff
+                                             ) a
+                              -> Eff ( readline :: READLINE
+                                     | eff
+                                     ) Unit
