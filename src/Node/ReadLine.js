@@ -11,7 +11,7 @@ exports.createInterfaceImpl = function(options) {
       output: options.output,
       completer: options.completer && function(line) {
         var res = options.completer(line)();
-        return [res.completions, res.suffix];
+        return [res.completions, res.matched];
       },
       terminal: options.terminal,
       historySize: options.historySize
