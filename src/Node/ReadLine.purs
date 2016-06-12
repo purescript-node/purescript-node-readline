@@ -19,7 +19,7 @@ module Node.ReadLine
   , close
   ) where
 
-import Prelude (Unit, return, (<>), ($))
+import Prelude
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
 import Control.Monad.Eff.Exception (EXCEPTION)
@@ -94,7 +94,7 @@ createConsoleInterface compl = createInterface stdin $ output := stdout
 
 -- | A completion function which offers no completions.
 noCompletion :: forall eff. Completer eff
-noCompletion s = return { completions: [], matched: s }
+noCompletion s = pure { completions: [], matched: s }
 
 -- | Prompt the user for input on the specified `Interface`.
 foreign import prompt :: forall eff.
