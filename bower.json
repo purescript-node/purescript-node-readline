@@ -1,9 +1,6 @@
 {
   "name": "purescript-node-readline",
   "homepage": "https://github.com/purescript-contrib/purescript-node-readline",
-  "keywords": [
-    "purescript"
-  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/purescript-node/purescript-node-readline.git"
@@ -14,17 +11,15 @@
     "bower_components",
     "node_modules",
     "output",
-    "tests",
-    "tmp",
+    "test",
     "bower.json",
-    "Gruntfile.js",
     "package.json"
   ],
   "dependencies": {
-    "purescript-console": "^1.0.0",
-    "purescript-node-streams": "^1.0.0",
-    "purescript-node-process": "^1.0.0",
-    "purescript-options": "^1.0.0",
-    "purescript-foreign": "^1.0.0"
+    "purescript-console": "^2.0.0",
+    "purescript-node-streams": "^2.0.0",
+    "purescript-node-process": "^3.0.0",
+    "purescript-options": "^2.0.0",
+    "purescript-foreign": "^3.0.0"
   }
 }
