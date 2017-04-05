@@ -16,10 +16,10 @@
     "package.json"
   ],
   "dependencies": {
-    "purescript-console": "^2.0.0",
-    "purescript-node-streams": "^2.0.0",
-    "purescript-node-process": "^3.0.0",
-    "purescript-options": "^2.0.0",
-    "purescript-foreign": "^3.0.0"
+    "purescript-console": "^3.0.0",
+    "purescript-node-streams": "^3.0.0",
+    "purescript-node-process": "^4.0.0",
+    "purescript-options": "^3.0.0",
+    "purescript-foreign": "^4.0.0"
   }
 }

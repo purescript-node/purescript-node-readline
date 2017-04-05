@@ -8,7 +8,7 @@ import Control.Monad.Eff.Exception (EXCEPTION)
 
 import Node.ReadLine (READLINE, prompt, close, setLineHandler, setPrompt,  noCompletion, createConsoleInterface)
 
-main :: forall eff. Eff (readline::READLINE, console::CONSOLE, err :: EXCEPTION | eff) Unit
+main :: forall eff. Eff (readline :: READLINE, console :: CONSOLE, exception :: EXCEPTION | eff) Unit
 main = do
   interface <- createConsoleInterface noCompletion
   setPrompt "> " 2 interface

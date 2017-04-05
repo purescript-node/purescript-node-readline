@@ -21,7 +21,7 @@ module Node.ReadLine
 
 import Prelude
 
-import Control.Monad.Eff (Eff)
+import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Console (CONSOLE)
 import Control.Monad.Eff.Exception (EXCEPTION)
 
@@ -34,10 +34,10 @@ import Node.Stream (Readable, Writable)
 -- | A handle to a console interface.
 -- |
 -- | A handle can be created with the `createInterface` function.
-foreign import data Interface :: *
+foreign import data Interface :: Type
 
 -- | The effect of interacting with a stream via an `Interface`
-foreign import data READLINE :: !
+foreign import data READLINE :: Effect
 
 foreign import createInterfaceImpl
   :: forall eff
@@ -83,8 +83,8 @@ createInterface input opts = createInterfaceImpl
 -- | Create an interface with the specified completion function.
 createConsoleInterface
   :: forall eff
-   . Completer (readline :: READLINE, console :: CONSOLE, err :: EXCEPTION | eff)
-  -> Eff (readline :: READLINE, console :: CONSOLE, err :: EXCEPTION | eff) Interface
+   . Completer (readline :: READLINE, console :: CONSOLE, exception :: EXCEPTION | eff)
+  -> Eff (readline :: READLINE, console :: CONSOLE, exception :: EXCEPTION | eff) Interface
 createConsoleInterface compl =
   createInterface stdin
     $ output := stdout
