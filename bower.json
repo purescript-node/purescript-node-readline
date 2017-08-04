@@ -18,7 +18,7 @@
   "dependencies": {
     "purescript-console": "^3.0.0",
     "purescript-node-streams": "^3.0.0",
-    "purescript-node-process": "^4.0.0",
+    "purescript-node-process": ">= 4.0.0 <6.0.0",
     "purescript-options": "^3.0.0",
     "purescript-foreign": "^4.0.0"
   }
