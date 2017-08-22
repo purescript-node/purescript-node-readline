@@ -17,6 +17,7 @@ module Node.ReadLine
   , setPrompt
   , setLineHandler
   , close
+  , question
   ) where
 
 import Prelude
@@ -98,6 +99,16 @@ noCompletion s = pure { completions: [], matched: s }
 foreign import prompt
   :: forall eff
    . Interface
+  -> Eff (readline :: READLINE | eff) Unit
+
+-- | Writes a query to the output, waits
+-- | for user input to be provided on input, then invokes
+-- | the callback function
+foreign import question
+  :: forall e eff
+   . String
+  -> (String -> Eff e Unit)
+  -> Interface
   -> Eff (readline :: READLINE | eff) Unit
 
 -- | Set the prompt.

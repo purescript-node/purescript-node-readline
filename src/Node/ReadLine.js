@@ -31,6 +31,18 @@ exports.prompt = function (readline) {
     };
 };
 
+exports.question = function(text) {
+    return function(callback) {
+        return function(readline) {
+            return function() {
+                readline.question(text, function(result) {
+                    callback(result)();
+                });
+            }                       
+        }   
+    }
+}
+
 exports.setPrompt = function (prompt) {
     return function (length) {
         return function (readline) {
