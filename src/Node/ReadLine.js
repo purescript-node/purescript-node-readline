@@ -38,10 +38,10 @@ exports.question = function(text) {
                 readline.question(text, function(result) {
                     callback(result)();
                 });
-            }                       
-        }   
-    }
-}
+            };
+        };
+    };
+};
 
 exports.setPrompt = function (prompt) {
     return function (length) {

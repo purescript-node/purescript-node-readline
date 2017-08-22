@@ -105,9 +105,9 @@ foreign import prompt
 -- | for user input to be provided on input, then invokes
 -- | the callback function
 foreign import question
-  :: forall e eff
+  :: forall eff
    . String
-  -> (String -> Eff e Unit)
+  -> (String -> Eff eff Unit)
   -> Interface
   -> Eff (readline :: READLINE | eff) Unit
 
