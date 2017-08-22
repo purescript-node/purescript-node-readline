@@ -107,7 +107,7 @@ foreign import prompt
 foreign import question
   :: forall eff
    . String
-  -> (String -> Eff eff Unit)
+  -> (String -> Eff (readline :: READLINE | eff) Unit)
   -> Interface
   -> Eff (readline :: READLINE | eff) Unit
 
