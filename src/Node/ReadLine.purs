@@ -2,7 +2,6 @@
 
 module Node.ReadLine
   ( Interface
-  , READLINE
   , InterfaceOptions
   , Completer
   , LineHandler
@@ -22,11 +21,9 @@ module Node.ReadLine
 
 import Prelude
 
-import Control.Monad.Eff (kind Effect, Eff)
-import Control.Monad.Eff.Console (CONSOLE)
-import Control.Monad.Eff.Exception (EXCEPTION)
+import Effect (Effect)
 
-import Data.Foreign (Foreign)
+import Foreign (Foreign)
 import Data.Options (Options, Option, (:=), options, opt)
 
 import Node.Process (stdin, stdout)
@@ -37,21 +34,15 @@ import Node.Stream (Readable, Writable)
 -- | A handle can be created with the `createInterface` function.
 foreign import data Interface :: Type
 
--- | The effect of interacting with a stream via an `Interface`
-foreign import data READLINE :: Effect
-
-foreign import createInterfaceImpl
-  :: forall eff
-   . Foreign
-  -> Eff ( readline :: READLINE | eff ) Interface
+foreign import createInterfaceImpl :: Foreign -> Effect Interface
 
 -- | Options passed to `readline`'s `createInterface`
-data InterfaceOptions
+foreign import data InterfaceOptions :: Type
 
-output :: forall w eff. Option InterfaceOptions (Writable w eff)
+output :: forall w. Option InterfaceOptions (Writable w)
 output = opt "output"
 
-completer :: forall eff. Option InterfaceOptions (Completer eff)
+completer :: Option InterfaceOptions Completer
 completer = opt "completer"
 
 terminal :: Option InterfaceOptions Boolean
@@ -64,73 +55,62 @@ historySize = opt "historySize"
 -- |
 -- | This function takes the partial command as input, and returns a collection of
 -- | completions, as well as the matched portion of the input string.
-type Completer eff
+type Completer
   = String
-  -> Eff eff
+  -> Effect
       { completions :: Array String
       , matched :: String
       }
 
 -- | Builds an interface with the specified options.
 createInterface
-  :: forall r eff
-   .  Readable r (readline :: READLINE | eff)
+  :: forall r
+   .  Readable r
   -> Options InterfaceOptions
-  -> Eff (readline :: READLINE | eff) Interface
+  -> Effect Interface
 createInterface input opts = createInterfaceImpl
   $ options $ opts
            <> opt "input" := input
 
 -- | Create an interface with the specified completion function.
-createConsoleInterface
-  :: forall eff
-   . Completer (readline :: READLINE, console :: CONSOLE, exception :: EXCEPTION | eff)
-  -> Eff (readline :: READLINE, console :: CONSOLE, exception :: EXCEPTION | eff) Interface
+createConsoleInterface :: Completer -> Effect Interface
 createConsoleInterface compl =
   createInterface stdin
     $ output := stdout
     <> completer := compl
 
 -- | A completion function which offers no completions.
-noCompletion :: forall eff. Completer eff
+noCompletion :: Completer
 noCompletion s = pure { completions: [], matched: s }
 
 -- | Prompt the user for input on the specified `Interface`.
-foreign import prompt
-  :: forall eff
-   . Interface
-  -> Eff (readline :: READLINE | eff) Unit
+foreign import prompt :: Interface -> Effect Unit
 
 -- | Writes a query to the output, waits
 -- | for user input to be provided on input, then invokes
 -- | the callback function
 foreign import question
-  :: forall eff
-   . String
-  -> (String -> Eff (readline :: READLINE | eff) Unit)
+  :: String
+  -> (String -> Effect Unit)
   -> Interface
-  -> Eff (readline :: READLINE | eff) Unit
+  -> Effect Unit
 
 -- | Set the prompt.
 foreign import setPrompt
-  :: forall eff
-   . String
+  :: String
   -> Int
   -> Interface
-  -> Eff (readline :: READLINE | eff) Unit
+  -> Effect Unit
 
 -- | Close the specified `Interface`.
-foreign import close
-  :: forall eff
-   . Interface
-  -> Eff (readline :: READLINE | eff) Unit
+foreign import close :: Interface -> Effect Unit
 
 -- | A function which handles each line of input.
-type LineHandler eff a = String -> Eff eff a
+type LineHandler a = String -> Effect a
 
 -- | Set the current line handler function.
 foreign import setLineHandler
-  :: forall eff a
+  :: forall a
    . Interface
-  -> LineHandler (readline :: READLINE | eff) a
-  -> Eff (readline :: READLINE | eff) Unit
+  -> LineHandler a
+  -> Effect Unit
