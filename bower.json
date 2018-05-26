@@ -17,7 +17,7 @@
   ],
   "devDependencies": {
     "purescript-console": "#compiler/0.12"
-  }
+  },
   "dependencies": {
     "purescript-node-streams": "#compiler/0.12",
     "purescript-node-process": "#compiler/0.12",
