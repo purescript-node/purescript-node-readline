@@ -15,11 +15,15 @@
     "bower.json",
     "package.json"
   ],
+  "devDependencies": {
+    "purescript-console": "^4.0.0"
+  },
   "dependencies": {
-    "purescript-console": "^3.0.0",
-    "purescript-node-streams": "^3.0.0",
-    "purescript-node-process": ">= 4.0.0 <6.0.0",
-    "purescript-options": "^3.0.0",
-    "purescript-foreign": "^4.0.0"
+    "purescript-node-streams": "^4.0.0",
+    "purescript-node-process": "^6.0.0",
+    "purescript-options": "^v4.0.0",
+    "purescript-foreign": "^5.0.0",
+    "purescript-prelude": "^v4.0.0",
+    "purescript-effect": "^2.0.0"
   }
 }
