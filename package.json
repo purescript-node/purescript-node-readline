@@ -5,7 +5,7 @@
     "build": "eslint src && pulp build -- --censor-lib --strict"
   },
   "devDependencies": {
-    "eslint": "^3.17.1",
+    "eslint": "^6.6.0",
     "pulp": "^11.0.0",
     "purescript-psa": "^0.5.0",
     "rimraf": "^2.5.4"
