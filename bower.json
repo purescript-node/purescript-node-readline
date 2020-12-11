@@ -20,10 +20,10 @@
   },
   "dependencies": {
     "purescript-node-streams": "master",
-    "purescript-node-process": ">=6.0.0 <8.0.0",
-    "purescript-options": ">=4.0.0 <6.0.0",
+    "purescript-node-process": "master",
+    "purescript-options": "main",
     "purescript-foreign": "master",
-    "purescript-prelude": "^v4.0.0",
+    "purescript-prelude": "master",
     "purescript-effect": "master"
   }
 }
