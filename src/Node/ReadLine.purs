@@ -98,7 +98,6 @@ foreign import question
 -- | Set the prompt.
 foreign import setPrompt
   :: String
-  -> Int
   -> Interface
   -> Effect Unit
 

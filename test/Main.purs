@@ -10,7 +10,7 @@ import Node.ReadLine (prompt, close, setLineHandler, setPrompt,  noCompletion, c
 main :: Effect Unit
 main = do
   interface <- createConsoleInterface noCompletion
-  setPrompt "> " 2 interface
+  setPrompt "> " interface
   prompt interface
   setLineHandler interface $ \s ->
     if s == "quit"

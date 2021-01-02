@@ -45,11 +45,9 @@ exports.question = function (text) {
 };
 
 exports.setPrompt = function (prompt) {
-  return function (length) {
-    return function (readline) {
-      return function () {
-        readline.setPrompt(prompt, length);
-      };
+  return function (readline) {
+    return function () {
+      readline.setPrompt(prompt);
     };
   };
 };
