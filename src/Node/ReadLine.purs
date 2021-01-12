@@ -65,7 +65,7 @@ type Completer
 -- | Builds an interface with the specified options.
 createInterface
   :: forall r
-   .  Readable r
+   . Readable r
   -> Options InterfaceOptions
   -> Effect Interface
 createInterface input opts = createInterfaceImpl
@@ -110,6 +110,6 @@ type LineHandler a = String -> Effect a
 -- | Set the current line handler function.
 foreign import setLineHandler
   :: forall a
-   . Interface
-  -> LineHandler a
+   . LineHandler a
+  -> Interface
   -> Effect Unit
