@@ -52,8 +52,8 @@ exports.setPrompt = function (prompt) {
   };
 };
 
-exports.setLineHandler = function (readline) {
-  return function (callback) {
+exports.setLineHandler = function (callback) {
+  return function (readline) {
     return function () {
       readline.removeAllListeners("line");
       readline.on("line", function (line) {

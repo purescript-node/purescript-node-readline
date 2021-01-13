@@ -12,9 +12,9 @@ main = do
   interface <- createConsoleInterface noCompletion
   setPrompt "> " interface
   prompt interface
-  setLineHandler interface $ \s ->
+  interface # setLineHandler \s ->
     if s == "quit"
-       then close interface
-       else do
-        log $ "You typed: " <> s
-        prompt interface
+      then close interface
+      else do
+         log $ "You typed: " <> s
+         prompt interface
