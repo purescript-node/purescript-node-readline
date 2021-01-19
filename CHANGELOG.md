@@ -15,7 +15,7 @@ Other improvements:
 ## [v5.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v5.0.0) - 2021-MONTH-DAY
 
 Breaking changes:
-  - Updated dependencies for PureScript 0.14 (#20)
+  - Added support for PureScript 0.14 and dropped support for all previous versions (#20)
   - Removed length parameter for `setPrompt` (#21)
   - Ensured a consistent argument position for functions using `Interface` (#23)
 
@@ -71,9 +71,13 @@ Other improvements:
 
 - Release for 0.7 compiler.
 
-## [v0.2.0-rc.1](https://github.com/purescript-node/purescript-node-readline/releases/tag/v0.2.0-rc.1) - 2015-06-12
+## [v0.1.1](https://github.com/purescript-node/purescript-node-readline/releases/tag/v0.1.1) - 2014-10-29
 
-- Initial release for the 0.7 compiler release.
+- Prevent row subtraction wonkiness in setLineHandler.
+
+## [v0.1.1](https://github.com/purescript-node/purescript-node-readline/releases/tag/v0.1.1) - 2014-08-27
+
+- Simplify some type signatures, provide default completion, and provide better handling of events.
 
 ## [v0.1.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v0.1.0) - 2014-06-14
 
