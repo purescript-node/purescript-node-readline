@@ -2,10 +2,11 @@
 
 // module Node.ReadLine
 
-exports.createInterfaceImpl = function (options) {
+import { createInterface } from 'readline';
+
+export function createInterfaceImpl(options) {
   return function () {
-    var readline = require("readline");
-    return readline.createInterface({
+    return createInterface({
       input: options.input,
       output: options.output,
       completer:
@@ -18,21 +19,21 @@ exports.createInterfaceImpl = function (options) {
       historySize: options.historySize,
     });
   };
-};
+}
 
-exports.close = function (readline) {
+export function close(readline) {
   return function () {
     readline.close();
   };
-};
+}
 
-exports.prompt = function (readline) {
+export function prompt(readline) {
   return function () {
     readline.prompt();
   };
-};
+}
 
-exports.question = function (text) {
+export function question(text) {
   return function (callback) {
     return function (readline) {
       return function () {
@@ -42,17 +43,17 @@ exports.question = function (text) {
       };
     };
   };
-};
+}
 
-exports.setPrompt = function (prompt) {
+export function setPrompt(prompt) {
   return function (readline) {
     return function () {
       readline.setPrompt(prompt);
     };
   };
-};
+}
 
-exports.setLineHandler = function (callback) {
+export function setLineHandler(callback) {
   return function (readline) {
     return function () {
       readline.removeAllListeners("line");
@@ -61,4 +62,4 @@ exports.setLineHandler = function (callback) {
       });
     };
   };
-};
+}
