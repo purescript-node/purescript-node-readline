@@ -1,14 +1,14 @@
 // module Node.ReadLine
 
-import { createInterface } from 'readline';
+import { createInterface } from "readline";
 
 export function createInterfaceImpl(options) {
   return () => createInterface({
     input: options.input,
     output: options.output,
     completer: options.completer && (line => {
-        const res = options.completer(line)();
-        return [res.completions, res.matched];
+      const res = options.completer(line)();
+      return [res.completions, res.matched];
     }),
     terminal: options.terminal,
     historySize: options.historySize,
