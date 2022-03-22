@@ -21,8 +21,8 @@
   "dependencies": {
     "purescript-effect": "master",
     "purescript-foreign": "master",
-    "purescript-node-process": "^8.0.0",
-    "purescript-node-streams": "^5.0.0",
+    "purescript-node-process": "master",
+    "purescript-node-streams": "master",
     "purescript-options": "main",
     "purescript-prelude": "master"
   }
