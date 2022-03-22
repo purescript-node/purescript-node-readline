@@ -1,64 +1,51 @@
-"use strict";
-
 // module Node.ReadLine
 
-exports.createInterfaceImpl = function (options) {
-  return function () {
-    var readline = require("readline");
-    return readline.createInterface({
-      input: options.input,
-      output: options.output,
-      completer:
-        options.completer &&
-        function (line) {
-          var res = options.completer(line)();
-          return [res.completions, res.matched];
-        },
-      terminal: options.terminal,
-      historySize: options.historySize,
-    });
-  };
-};
+import { createInterface } from "readline";
 
-exports.close = function (readline) {
-  return function () {
+export function createInterfaceImpl(options) {
+  return () => createInterface({
+    input: options.input,
+    output: options.output,
+    completer: options.completer && (line => {
+      const res = options.completer(line)();
+      return [res.completions, res.matched];
+    }),
+    terminal: options.terminal,
+    historySize: options.historySize,
+  });
+}
+
+export function close(readline) {
+  return () => {
     readline.close();
   };
-};
+}
 
-exports.prompt = function (readline) {
-  return function () {
+export function prompt(readline) {
+  return () => {
     readline.prompt();
   };
-};
+}
 
-exports.question = function (text) {
-  return function (callback) {
-    return function (readline) {
-      return function () {
-        readline.question(text, function (result) {
-          callback(result)();
-        });
-      };
-    };
+export function question(text) {
+  return callback => readline => () => {
+    readline.question(text, result => {
+      callback(result)();
+    });
   };
-};
+}
 
-exports.setPrompt = function (prompt) {
-  return function (readline) {
-    return function () {
-      readline.setPrompt(prompt);
-    };
+export function setPrompt(prompt) {
+  return readline => () => {
+    readline.setPrompt(prompt);
   };
-};
+}
 
-exports.setLineHandler = function (callback) {
-  return function (readline) {
-    return function () {
-      readline.removeAllListeners("line");
-      readline.on("line", function (line) {
-        callback(line)();
-      });
-    };
+export function setLineHandler(callback) {
+  return readline => () => {
+    readline.removeAllListeners("line");
+    readline.on("line", line => {
+      callback(line)();
+    });
   };
-};
+}
