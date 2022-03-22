@@ -1,5 +1,3 @@
-"use strict";
-
 // module Node.ReadLine
 
 import { createInterface } from 'readline';
