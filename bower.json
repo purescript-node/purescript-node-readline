@@ -16,14 +16,14 @@
     "package.json"
   ],
   "devDependencies": {
-    "purescript-console": "master"
+    "purescript-console": "^6.0.0"
   },
   "dependencies": {
-    "purescript-effect": "master",
-    "purescript-foreign": "master",
-    "purescript-node-process": "master",
-    "purescript-node-streams": "master",
-    "purescript-options": "main",
-    "purescript-prelude": "master"
+    "purescript-effect": "^4.0.0",
+    "purescript-foreign": "^7.0.0",
+    "purescript-node-process": "^9.0.0",
+    "purescript-node-streams": "^6.0.0",
+    "purescript-options": "^7.0.0",
+    "purescript-prelude": "^6.0.0"
   }
 }
