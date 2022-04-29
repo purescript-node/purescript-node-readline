@@ -12,6 +12,11 @@ Bugfixes:
 
 Other improvements:
 
+## [v7.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v7.0.0) - 2022-04-29
+
+Breaking changes:
+- Update project and deps to PureScript v0.15.0 (#28 by @JordanMartinez, @sigma-andex)
+
 ## [v6.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v6.0.0) - 2022-04-27
 
 Breaking changes:
