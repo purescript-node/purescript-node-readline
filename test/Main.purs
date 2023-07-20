@@ -5,7 +5,7 @@ import Prelude
 import Effect (Effect)
 import Effect.Console (log)
 
-import Node.ReadLine (prompt, close, setLineHandler, setPrompt,  noCompletion, createConsoleInterface)
+import Node.ReadLine (prompt, close, setLineHandler, setPrompt, noCompletion, createConsoleInterface)
 
 main :: Effect Unit
 main = do
@@ -13,8 +13,7 @@ main = do
   setPrompt "> " interface
   prompt interface
   interface # setLineHandler \s ->
-    if s == "quit"
-      then close interface
-      else do
-         log $ "You typed: " <> s
-         prompt interface
+    if s == "quit" then close interface
+    else do
+      log $ "You typed: " <> s
+      prompt interface
