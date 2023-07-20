@@ -55,12 +55,12 @@ historySize = opt "historySize"
 -- |
 -- | This function takes the partial command as input, and returns a collection of
 -- | completions, as well as the matched portion of the input string.
-type Completer
-  = String
+type Completer =
+  String
   -> Effect
-      { completions :: Array String
-      , matched :: String
-      }
+       { completions :: Array String
+       , matched :: String
+       }
 
 -- | Builds an interface with the specified options.
 createInterface
@@ -69,15 +69,16 @@ createInterface
   -> Options InterfaceOptions
   -> Effect Interface
 createInterface input opts = createInterfaceImpl
-  $ options $ opts
-           <> opt "input" := input
+  $ options
+  $ opts
+      <> opt "input" := input
 
 -- | Create an interface with the specified completion function.
 createConsoleInterface :: Completer -> Effect Interface
 createConsoleInterface compl =
   createInterface stdin
     $ output := stdout
-    <> completer := compl
+        <> completer := compl
 
 -- | A completion function which offers no completions.
 noCompletion :: Completer
