@@ -11,6 +11,9 @@ New features:
 Bugfixes:
 
 Other improvements:
+- Update CI `node` version to `lts/*` (#31, #32 by @JordanMartinez)
+- Update CI actions to `v3` (#31, #32 by @JordanMartinez)
+- Format code via `purs-tidy`; enforce formatting in CI (#31, #32 by @JordanMartinez)
 
 ## [v7.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v7.0.0) - 2022-04-29
 
