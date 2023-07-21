@@ -25,6 +25,7 @@ export const pauseImpl = (rl) => rl.pause();
 export const promptImpl = (rl) => rl.prompt();
 export const promptOptsImpl = (rl, cursor) => rl.prompt(cursor);
 export const questionImpl = (rl, text, cb) => rl.question(text, cb);
+export const questionOptsCbImpl = (rl, text, opts, cb) => rl.question(text, opts, cb);
 export const resumeImpl = (rl) => rl.resume();
 export const setPromptImpl = (rl, prompt) => rl.setPrompt(prompt);
 export const getPromptImpl = (rl) => rl.getPrompt();
