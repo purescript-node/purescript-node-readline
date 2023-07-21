@@ -21,11 +21,10 @@ module Node.ReadLine
 
 import Prelude
 
-import Effect (Effect)
-
-import Foreign (Foreign)
 import Data.Options (Options, Option, (:=), options, opt)
-
+import Effect (Effect)
+import Effect.Uncurried (EffectFn1, EffectFn2, EffectFn3, runEffectFn1, runEffectFn2, runEffectFn3)
+import Foreign (Foreign)
 import Node.Process (stdin, stdout)
 import Node.Stream (Readable, Writable)
 
@@ -85,32 +84,36 @@ noCompletion :: Completer
 noCompletion s = pure { completions: [], matched: s }
 
 -- | Prompt the user for input on the specified `Interface`.
-foreign import prompt :: Interface -> Effect Unit
+prompt :: Interface -> Effect Unit
+prompt iface = runEffectFn1 promptImpl iface
+
+foreign import promptImpl :: EffectFn1 (Interface) (Unit)
 
 -- | Writes a query to the output, waits
 -- | for user input to be provided on input, then invokes
 -- | the callback function
-foreign import question
-  :: String
-  -> (String -> Effect Unit)
-  -> Interface
-  -> Effect Unit
+question :: String -> (String -> Effect Unit) -> Interface -> Effect Unit
+question text cb iface = runEffectFn3 questionImpl iface text cb
+
+foreign import questionImpl :: EffectFn3 (Interface) (String) ((String -> Effect Unit)) Unit
 
 -- | Set the prompt.
-foreign import setPrompt
-  :: String
-  -> Interface
-  -> Effect Unit
+setPrompt :: String -> Interface -> Effect Unit
+setPrompt newPrompt iface = runEffectFn2 setPromptImpl iface newPrompt
+
+foreign import setPromptImpl :: EffectFn2 (Interface) (String) (Unit)
 
 -- | Close the specified `Interface`.
-foreign import close :: Interface -> Effect Unit
+close :: Interface -> Effect Unit
+close iface = runEffectFn1 closeImpl iface
+
+foreign import closeImpl :: EffectFn1 (Interface) (Unit)
 
 -- | A function which handles each line of input.
 type LineHandler a = String -> Effect a
 
 -- | Set the current line handler function.
-foreign import setLineHandler
-  :: forall a
-   . LineHandler a
-  -> Interface
-  -> Effect Unit
+setLineHandler :: forall a. LineHandler a -> Interface -> Effect Unit
+setLineHandler cb iface = runEffectFn2 setLineHandlerImpl iface cb
+
+foreign import setLineHandlerImpl :: forall a. EffectFn2 (Interface) (LineHandler a) (Unit)

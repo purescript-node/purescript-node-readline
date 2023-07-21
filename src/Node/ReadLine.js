@@ -2,50 +2,22 @@
 
 import { createInterface } from "readline";
 
-export function createInterfaceImpl(options) {
-  return () => createInterface({
-    input: options.input,
-    output: options.output,
-    completer: options.completer && (line => {
-      const res = options.completer(line)();
-      return [res.completions, res.matched];
-    }),
-    terminal: options.terminal,
-    historySize: options.historySize,
-  });
-}
+export const createInterfaceImpl = (options) => createInterface({
+  input: options.input,
+  output: options.output,
+  completer: options.completer && (line => {
+    const res = options.completer(line)();
+    return [res.completions, res.matched];
+  }),
+  terminal: options.terminal,
+  historySize: options.historySize,
+});
 
-export function close(readline) {
-  return () => {
-    readline.close();
-  };
-}
-
-export function prompt(readline) {
-  return () => {
-    readline.prompt();
-  };
-}
-
-export function question(text) {
-  return callback => readline => () => {
-    readline.question(text, result => {
-      callback(result)();
-    });
-  };
-}
-
-export function setPrompt(prompt) {
-  return readline => () => {
-    readline.setPrompt(prompt);
-  };
-}
-
-export function setLineHandler(callback) {
-  return readline => () => {
-    readline.removeAllListeners("line");
-    readline.on("line", line => {
-      callback(line)();
-    });
-  };
-}
+export const closeImpl = (readline) => readline.close();
+export const promptImpl = (readline) => readline.prompt();
+export const questionImpl = (readline, text, cb) => readline.question(text, cb);
+export const setPromptImpl = (readline, prompt) => readline.setPrompt(prompt);
+export const setLineHandlerImpl = (readline, cb) => {
+  readline.removeAllListeners("line");
+  readline.on("line", cb);
+};
