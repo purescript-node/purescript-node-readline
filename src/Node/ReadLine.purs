@@ -18,6 +18,7 @@ module Node.ReadLine
   , crlfDelay
   , escapeCodeTimeout
   , tabSize
+  , signal
   , closeH
   , lineH
   , historyH
@@ -31,6 +32,7 @@ module Node.ReadLine
   , prompt
   , prompt'
   , question
+  , question'
   , resume
   , setPrompt
   , getPrompt
@@ -64,6 +66,7 @@ import Data.Time.Duration (Milliseconds)
 import Effect (Effect)
 import Effect.Uncurried (EffectFn1, EffectFn2, EffectFn3, EffectFn4, mkEffectFn1, runEffectFn1, runEffectFn2, runEffectFn3, runEffectFn4)
 import Foreign (Foreign)
+import Node.Errors.AbortSignal (AbortSignal)
 import Node.EventEmitter (EventEmitter, EventHandle(..))
 import Node.EventEmitter.UtilTypes (EventHandle0, EventHandle1)
 import Node.Process (stdin, stdout)
@@ -181,6 +184,9 @@ escapeCodeTimeout = opt "escapeCodeTimeout"
 
 tabSize :: Option InterfaceOptions Int
 tabSize = opt "tabSize"
+
+signal :: Option InterfaceOptions AbortSignal
+signal = opt "signal"
 
 -- | The 'close' event is emitted when one of the following occur:
 -- | 
@@ -313,6 +319,28 @@ question :: String -> (String -> Effect Unit) -> Interface -> Effect Unit
 question text cb iface = runEffectFn3 questionImpl iface text cb
 
 foreign import questionImpl :: EffectFn3 (Interface) (String) ((String -> Effect Unit)) Unit
+
+-- | Writes a query to the output, waits
+-- | for user input to be provided on input, then invokes
+-- | the callback function
+-- |
+-- | Args:
+-- |   - `query` <string> A statement or query to write to output, prepended to the prompt.
+-- |   - `options` <Object>
+-- |        - `signal` <AbortSignal> Optionally allows the question() to be canceled using an AbortController.
+-- |   - `callback` <Function> A callback function that is invoked with the user's input in response to the query.
+-- | 
+-- | The `rl.question()` method displays the query by writing it to the output, waits for user input to be provided on input, then invokes the callback function passing the provided input as the first argument.
+-- | 
+-- | When called, `rl.question()` will resume the input stream if it has been paused.
+-- | 
+-- | If the readline.Interface was created with output set to null or undefined the query is not written.
+-- | 
+-- | The callback function passed to `rl.question()` does not follow the typical pattern of accepting an Error object or null as the first argument. The callback is called with the provided answer as the only argument.
+question' :: String -> { signal :: AbortSignal } -> (String -> Effect Unit) -> Interface -> Effect Unit
+question' text opts cb iface = runEffectFn4 questionOptsCbImpl iface text opts cb
+
+foreign import questionOptsCbImpl :: EffectFn4 (Interface) (String) { signal :: AbortSignal } ((String -> Effect Unit)) Unit
 
 -- | The rl.resume() method resumes the input stream if it has been paused.
 resume :: Interface -> Effect Unit

@@ -31,15 +31,23 @@ New features:
   - crlfDelay
   - escapeCodeTimeout
   - tabSize
-- Added missing APIs (#35 by @JordanMartinez)
+- Added missing APIs (#35, #36 by @JordanMartinez)
 
   - `pause`/`resume`
+  - `question'`
   - `getPrompt`
   - `write` exposed as `writeData` and `writeKey`
   - `line`, `cursor`
   - `getCursorPos`, `clearLine` variants, `clearScreenDown` variants
   - `cursorTo` variants, `moveCursor` variants
   - `emitKeyPressEvents`
+- Added `Aff`-based convenience methods (#36 by @JordanMartinez)
+
+  - `question`
+  - `question'`
+  - `countLines`
+  - `blockUntilClosed`
+- Added bindings for `AbortController`/`AbortSignal` (#36 by @JordanMartinez)
 
 Bugfixes:
 
