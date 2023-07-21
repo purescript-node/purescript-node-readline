@@ -23,6 +23,23 @@ Breaking changes:
   ```
 
 New features:
+- Added missing `createInterface` options (#35 by @JordanMartinez)
+
+  - history
+  - removeHistoryDuplicates
+  - prompt
+  - crlfDelay
+  - escapeCodeTimeout
+  - tabSize
+- Added missing APIs (#35 by @JordanMartinez)
+
+  - `pause`/`resume`
+  - `getPrompt`
+  - `write` exposed as `writeData` and `writeKey`
+  - `line`, `cursor`
+  - `getCursorPos`, `clearLine` variants, `clearScreenDown` variants
+  - `cursorTo` variants, `moveCursor` variants
+  - `emitKeyPressEvents`
 
 Bugfixes:
 
@@ -31,6 +48,7 @@ Other improvements:
 - Update CI actions to `v3` (#31, #32 by @JordanMartinez)
 - Format code via `purs-tidy`; enforce formatting in CI (#31, #32 by @JordanMartinez)
 - Update FFI to use uncurried functions (#33 by @JordanMartinez)
+- Reordered export list (#35 by @JordanMartinez)
 
 ## [v7.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v7.0.0) - 2022-04-29
 
