@@ -4,15 +4,15 @@ import Prelude
 
 import Effect (Effect)
 import Effect.Console (log)
-
-import Node.ReadLine (prompt, close, setLineHandler, setPrompt, noCompletion, createConsoleInterface)
+import Node.EventEmitter (on_)
+import Node.ReadLine (close, createConsoleInterface, lineH, noCompletion, prompt, setPrompt)
 
 main :: Effect Unit
 main = do
   interface <- createConsoleInterface noCompletion
-  setPrompt "> " interface
+  setPrompt "(type 'quit' to stop)\n> " interface
   prompt interface
-  interface # setLineHandler \s ->
+  interface # on_ lineH \s ->
     if s == "quit" then close interface
     else do
       log $ "You typed: " <> s
