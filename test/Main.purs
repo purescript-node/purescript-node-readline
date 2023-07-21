@@ -10,7 +10,7 @@ import Node.ReadLine (close, createConsoleInterface, lineH, noCompletion, prompt
 main :: Effect Unit
 main = do
   interface <- createConsoleInterface noCompletion
-  setPrompt "> " interface
+  setPrompt "(type 'quit' to stop)\n> " interface
   prompt interface
   interface # on_ lineH \s ->
     if s == "quit" then close interface
