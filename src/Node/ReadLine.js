@@ -35,11 +35,11 @@ export const cursorImpl = (rl) => rl.cursor;
 export const getCursorPosImpl = (rl) => rl.getCursorPos();
 
 export const clearLineLeftImpl = (w) => readline.clearLine(w, -1);
-export const clearLineLeftCbImpl = (w) => readline.clearLine(w, -1, cb);
+export const clearLineLeftCbImpl = (w, cb) => readline.clearLine(w, -1, cb);
 export const clearLineRightImpl = (w) => readline.clearLine(w, 1);
-export const clearLineRightCbImpl = (w) => readline.clearLine(w, 1, cb);
+export const clearLineRightCbImpl = (w, cb) => readline.clearLine(w, 1, cb);
 export const clearEntireLineImpl = (w) => readline.clearLine(w, 0);
-export const clearEntireLineCbImpl = (w) => readline.clearLine(w, 0, cb);
+export const clearEntireLineCbImpl = (w, cb) => readline.clearLine(w, 0, cb);
 export const clearScreenDownImpl = (w) => readline.clearScreenDown(w);
 export const clearScreenDownCbImpl = (w, cb) => readline.clearScreenDown(w, cb);
 export const cursorToXImpl = (w, x) => readline.cursorTo(w, x);
