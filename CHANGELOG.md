@@ -5,6 +5,16 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
+
+New features:
+
+Bugfixes:
+
+Other improvements:
+
+## [v8.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v8.0.0) - 2023-07-21
+
+Breaking changes:
 - Removed `setLineHandler` and `LineHandler` type alias (#34 by @JordanMartinez)
 
   `setLineHandler` was previously implemented as
