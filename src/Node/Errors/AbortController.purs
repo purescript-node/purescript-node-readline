@@ -11,8 +11,6 @@ import Prelude
 import Effect (Effect)
 import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, runEffectFn2)
 import Node.Errors.AbortSignal (AbortSignal)
-import Node.EventEmitter (EventHandle(..))
-import Node.EventEmitter.UtilTypes (EventHandle0)
 
 foreign import data AbortController :: Type
 
