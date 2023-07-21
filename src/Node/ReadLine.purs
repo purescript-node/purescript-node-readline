@@ -5,7 +5,6 @@ module Node.ReadLine
   , toEventEmitter
   , InterfaceOptions
   , Completer
-  , LineHandler
   , createInterface
   , createConsoleInterface
   , closeH
@@ -23,7 +22,6 @@ module Node.ReadLine
   , noCompletion
   , prompt
   , setPrompt
-  , setLineHandler
   , close
   , question
   ) where
@@ -43,6 +41,13 @@ import Unsafe.Coerce (unsafeCoerce)
 -- | A handle to a console interface.
 -- |
 -- | A handle can be created with the `createInterface` function.
+-- |
+-- | `Interface` extends `EventEmiter`
+-- |
+-- | From Node docs v18:
+-- | > Instances of the `readline.Interface` class are constructed using the `readline.createInterface()` method. 
+-- | > Every instance is associated with a single input Readable stream and a single output Writable stream. 
+-- | > The output stream is used to print prompts for user input that arrives on, and is read from, the input stream.
 foreign import data Interface :: Type
 
 toEventEmitter :: Interface -> EventEmitter
@@ -193,16 +198,11 @@ setPrompt newPrompt iface = runEffectFn2 setPromptImpl iface newPrompt
 foreign import setPromptImpl :: EffectFn2 (Interface) (String) (Unit)
 
 -- | Close the specified `Interface`.
+-- |
+-- | The rl.close() method closes the readline.Interface instance and relinquishes control over the input and output streams. When called, the 'close' event will be emitted.
+-- | 
+-- | Calling rl.close() does not immediately stop other events (including 'line') from being emitted by the readline.Interface instance.
 close :: Interface -> Effect Unit
 close iface = runEffectFn1 closeImpl iface
 
 foreign import closeImpl :: EffectFn1 (Interface) (Unit)
-
--- | A function which handles each line of input.
-type LineHandler a = String -> Effect a
-
--- | Set the current line handler function.
-setLineHandler :: forall a. LineHandler a -> Interface -> Effect Unit
-setLineHandler cb iface = runEffectFn2 setLineHandlerImpl iface cb
-
-foreign import setLineHandlerImpl :: forall a. EffectFn2 (Interface) (LineHandler a) (Unit)

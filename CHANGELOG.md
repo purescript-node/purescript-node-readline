@@ -5,6 +5,22 @@ Notable changes to this project are documented in this file. The format is based
 ## [Unreleased]
 
 Breaking changes:
+- Removed `setLineHandler` and `LineHandler` type alias (#34 by @JordanMartinez)
+
+  `setLineHandler` was previously implemented as
+  ```js
+  readline.removeAllListeners("line");
+  readline.on("line", cb);
+
+  With the addition of bindings from `EventEmitter`,
+  this can be done using `on`
+  ```purs
+  example = do
+    removeListener <- interface # on lineH \line -> do
+      ...
+    ...
+    removeListener
+  ```
 
 New features:
 

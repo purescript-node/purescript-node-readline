@@ -17,7 +17,3 @@ export const closeImpl = (readline) => readline.close();
 export const promptImpl = (readline) => readline.prompt();
 export const questionImpl = (readline, text, cb) => readline.question(text, cb);
 export const setPromptImpl = (readline, prompt) => readline.setPrompt(prompt);
-export const setLineHandlerImpl = (readline, cb) => {
-  readline.removeAllListeners("line");
-  readline.on("line", cb);
-};
