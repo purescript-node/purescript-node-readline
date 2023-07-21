@@ -21,8 +21,9 @@
   "dependencies": {
     "purescript-effect": "^4.0.0",
     "purescript-foreign": "^7.0.0",
-    "purescript-node-process": "^10.0.0",
-    "purescript-node-streams": "^7.0.0",
+    "purescript-node-event-emitter": "https://github.com/purescript-node/purescript-node-event-emitter.git#^3.0.0",
+    "purescript-node-process": "^11.0.0",
+    "purescript-node-streams": "^8.0.0",
     "purescript-options": "^7.0.0",
     "purescript-prelude": "^6.0.0"
   }
