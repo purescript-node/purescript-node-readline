@@ -12,6 +12,11 @@ Bugfixes:
 
 Other improvements:
 
+## [v8.1.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v8.1.0) - 2023-07-26
+
+Bugfixes:
+- Bump `node-streams` to `v9.0.0` to fix FFI issues (#18 by @JordanMartinez)
+
 ## [v8.0.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v8.0.0) - 2023-07-21
 
 Breaking changes:
