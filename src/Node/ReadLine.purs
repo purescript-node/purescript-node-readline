@@ -316,9 +316,9 @@ foreign import promptOptsImpl :: EffectFn2 (Boolean) (Interface) (Unit)
 -- | 
 -- | The callback function passed to `rl.question()` does not follow the typical pattern of accepting an Error object or null as the first argument. The callback is called with the provided answer as the only argument.
 question :: String -> (String -> Effect Unit) -> Interface -> Effect Unit
-question text cb iface = runEffectFn3 questionImpl iface text cb
+question text cb iface = runEffectFn3 questionImpl iface text $ mkEffectFn1 cb
 
-foreign import questionImpl :: EffectFn3 (Interface) (String) ((String -> Effect Unit)) Unit
+foreign import questionImpl :: EffectFn3 (Interface) (String) (EffectFn1 String Unit) Unit
 
 -- | Writes a query to the output, waits
 -- | for user input to be provided on input, then invokes
@@ -338,9 +338,9 @@ foreign import questionImpl :: EffectFn3 (Interface) (String) ((String -> Effect
 -- | 
 -- | The callback function passed to `rl.question()` does not follow the typical pattern of accepting an Error object or null as the first argument. The callback is called with the provided answer as the only argument.
 question' :: String -> { signal :: AbortSignal } -> (String -> Effect Unit) -> Interface -> Effect Unit
-question' text opts cb iface = runEffectFn4 questionOptsCbImpl iface text opts cb
+question' text opts cb iface = runEffectFn4 questionOptsCbImpl iface text opts $ mkEffectFn1 cb
 
-foreign import questionOptsCbImpl :: EffectFn4 (Interface) (String) { signal :: AbortSignal } ((String -> Effect Unit)) Unit
+foreign import questionOptsCbImpl :: EffectFn4 (Interface) (String) { signal :: AbortSignal } (EffectFn1 String Unit) Unit
 
 -- | The rl.resume() method resumes the input stream if it has been paused.
 resume :: Interface -> Effect Unit
