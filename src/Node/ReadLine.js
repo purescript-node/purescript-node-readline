@@ -14,7 +14,7 @@ export const createInterfaceImpl = (options) => readline.createInterface({
   historySize: options.historySize,
   removeHistoryDuplicates: options.removeHistoryDuplicates,
   prompt: options.prompt,
-  crlDelay: options.crlDelay,
+  crlfDelay: options.crlfDelay,
   escapeCodeTimeout: options.escapeCodeTimeout,
   tabSize: options.tabSize,
   signal: options.signal
