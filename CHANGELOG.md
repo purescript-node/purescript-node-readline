@@ -9,6 +9,8 @@ Breaking changes:
 New features:
 
 Bugfixes:
+- Ensure that callbacks passed to `question` and `question'` are invoked
+- Fixed typo in options passed to `readline.createInterface`
 
 Other improvements:
 
