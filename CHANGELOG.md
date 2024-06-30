@@ -9,10 +9,16 @@ Breaking changes:
 New features:
 
 Bugfixes:
-- Ensure that callbacks passed to `question` and `question'` are invoked
-- Fixed typo in options passed to `readline.createInterface`
+- Ensure that callbacks passed to `question` and `question'` are invoked (#38 by @youngnh)
+- Fixed typo in options passed to `readline.createInterface` (#38 by @youngnh)
 
 Other improvements:
+
+## [v8.1.1](https://github.com/purescript-node/purescript-node-readline/releases/tag/v8.1.1) - 2024-06-30
+
+Bugfixes:
+- Ensure that callbacks passed to `question` and `question'` are invoked (#38 by @youngnh)
+- Fixed typo in options passed to `readline.createInterface` (#38 by @youngnh)
 
 ## [v8.1.0](https://github.com/purescript-node/purescript-node-readline/releases/tag/v8.1.0) - 2023-07-26
 
