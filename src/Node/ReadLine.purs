@@ -360,9 +360,9 @@ getPrompt iface = runEffectFn1 getPromptImpl iface
 foreign import getPromptImpl :: EffectFn1 (Interface) (String)
 
 writeData :: String -> Interface -> Effect Unit
-writeData dataStr iface = runEffectFn2 writeDataImpl dataStr iface
+writeData dataStr iface = runEffectFn2 writeDataImpl iface dataStr
 
-foreign import writeDataImpl :: EffectFn2 (String) (Interface) (Unit)
+foreign import writeDataImpl :: EffectFn2 Interface String Unit
 
 -- | - `name` <string> The name of the a key.
 -- | - `ctrl` <boolean> true to indicate the Ctrl key.
@@ -376,9 +376,9 @@ type KeySequenceObj =
   }
 
 writeKey :: KeySequenceObj -> Interface -> Effect Unit
-writeKey keySeq iface = runEffectFn2 writeKeyImpl keySeq iface
+writeKey keySeq iface = runEffectFn2 writeKeyImpl iface keySeq 
 
-foreign import writeKeyImpl :: EffectFn2 (KeySequenceObj) (Interface) (Unit)
+foreign import writeKeyImpl :: EffectFn2 Interface KeySequenceObj Unit
 
 line :: Interface -> Effect String
 line iface = runEffectFn1 lineImpl iface
