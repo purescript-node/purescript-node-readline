@@ -270,7 +270,7 @@ sigStpH = EventHandle "SIGSTP" identity
 close :: Interface -> Effect Unit
 close iface = runEffectFn1 closeImpl iface
 
-foreign import closeImpl :: EffectFn1 (Interface) (Unit)
+foreign import closeImpl :: EffectFn1 Interface Unit
 
 -- | The rl.pause() method pauses the input stream, allowing it to be resumed later if necessary.
 -- | 
@@ -278,13 +278,13 @@ foreign import closeImpl :: EffectFn1 (Interface) (Unit)
 pause :: Interface -> Effect Unit
 pause iface = runEffectFn1 pauseImpl iface
 
-foreign import pauseImpl :: EffectFn1 (Interface) (Unit)
+foreign import pauseImpl :: EffectFn1 Interface Unit
 
 -- | Prompt the user for input on the specified `Interface`.
 prompt :: Interface -> Effect Unit
 prompt iface = runEffectFn1 promptImpl iface
 
-foreign import promptImpl :: EffectFn1 (Interface) (Unit)
+foreign import promptImpl :: EffectFn1 Interface Unit
 
 -- | - `preserveCursor` <boolean> If true, prevents the cursor placement from being reset to 0.
 -- | 
@@ -296,7 +296,7 @@ foreign import promptImpl :: EffectFn1 (Interface) (Unit)
 prompt' :: Boolean -> Interface -> Effect Unit
 prompt' preserveCursor iface = runEffectFn2 promptOptsImpl preserveCursor iface
 
-foreign import promptOptsImpl :: EffectFn2 (Boolean) (Interface) (Unit)
+foreign import promptOptsImpl :: EffectFn2 Boolean Interface Unit
 
 -- | Writes a query to the output, waits
 -- | for user input to be provided on input, then invokes
@@ -318,7 +318,7 @@ foreign import promptOptsImpl :: EffectFn2 (Boolean) (Interface) (Unit)
 question :: String -> (String -> Effect Unit) -> Interface -> Effect Unit
 question text cb iface = runEffectFn3 questionImpl iface text $ mkEffectFn1 cb
 
-foreign import questionImpl :: EffectFn3 (Interface) (String) (EffectFn1 String Unit) Unit
+foreign import questionImpl :: EffectFn3 Interface String (EffectFn1 String Unit) Unit
 
 -- | Writes a query to the output, waits
 -- | for user input to be provided on input, then invokes
@@ -340,24 +340,24 @@ foreign import questionImpl :: EffectFn3 (Interface) (String) (EffectFn1 String 
 question' :: String -> { signal :: AbortSignal } -> (String -> Effect Unit) -> Interface -> Effect Unit
 question' text opts cb iface = runEffectFn4 questionOptsCbImpl iface text opts $ mkEffectFn1 cb
 
-foreign import questionOptsCbImpl :: EffectFn4 (Interface) (String) { signal :: AbortSignal } (EffectFn1 String Unit) Unit
+foreign import questionOptsCbImpl :: EffectFn4 Interface String { signal :: AbortSignal } (EffectFn1 String Unit) Unit
 
 -- | The rl.resume() method resumes the input stream if it has been paused.
 resume :: Interface -> Effect Unit
 resume iface = runEffectFn1 resumeImpl iface
 
-foreign import resumeImpl :: EffectFn1 (Interface) (Unit)
+foreign import resumeImpl :: EffectFn1 Interface Unit
 
 -- | The rl.setPrompt() method sets the prompt that will be written to output whenever rl.prompt() is called.
 setPrompt :: String -> Interface -> Effect Unit
 setPrompt newPrompt iface = runEffectFn2 setPromptImpl iface newPrompt
 
-foreign import setPromptImpl :: EffectFn2 (Interface) (String) (Unit)
+foreign import setPromptImpl :: EffectFn2 Interface String Unit
 
 getPrompt :: Interface -> Effect String
 getPrompt iface = runEffectFn1 getPromptImpl iface
 
-foreign import getPromptImpl :: EffectFn1 (Interface) (String)
+foreign import getPromptImpl :: EffectFn1 Interface String
 
 writeData :: String -> Interface -> Effect Unit
 writeData dataStr iface = runEffectFn2 writeDataImpl iface dataStr
@@ -383,12 +383,12 @@ foreign import writeKeyImpl :: EffectFn2 Interface KeySequenceObj Unit
 line :: Interface -> Effect String
 line iface = runEffectFn1 lineImpl iface
 
-foreign import lineImpl :: EffectFn1 (Interface) (String)
+foreign import lineImpl :: EffectFn1 Interface String
 
 cursor :: Interface -> Effect Int
 cursor iface = runEffectFn1 cursorImpl iface
 
-foreign import cursorImpl :: EffectFn1 (Interface) (Int)
+foreign import cursorImpl :: EffectFn1 Interface Int
 
 type CursorPos =
   { rows :: Int
@@ -398,84 +398,84 @@ type CursorPos =
 getCursorPos :: Interface -> Effect CursorPos
 getCursorPos iface = runEffectFn1 getCursorPosImpl iface
 
-foreign import getCursorPosImpl :: EffectFn1 (Interface) (CursorPos)
+foreign import getCursorPosImpl :: EffectFn1 Interface CursorPos
 
 clearLineLeft :: forall r. Writable r -> Effect Boolean
 clearLineLeft stream = runEffectFn1 clearLineLeftImpl stream
 
-foreign import clearLineLeftImpl :: forall r. EffectFn1 (Writable r) (Boolean)
+foreign import clearLineLeftImpl :: forall r. EffectFn1 (Writable r) Boolean
 
 clearLineLeft' :: forall r. Writable r -> Effect Unit -> Effect Boolean
 clearLineLeft' stream cb = runEffectFn2 clearLineLeftCbImpl stream cb
 
-foreign import clearLineLeftCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) (Boolean)
+foreign import clearLineLeftCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) Boolean
 
 clearLineRight :: forall r. Writable r -> Effect Boolean
 clearLineRight stream = runEffectFn1 clearLineRightImpl stream
 
-foreign import clearLineRightImpl :: forall r. EffectFn1 (Writable r) (Boolean)
+foreign import clearLineRightImpl :: forall r. EffectFn1 (Writable r) Boolean
 
 clearLineRight' :: forall r. Writable r -> Effect Unit -> Effect Boolean
 clearLineRight' stream cb = runEffectFn2 clearLineRightCbImpl stream cb
 
-foreign import clearLineRightCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) (Boolean)
+foreign import clearLineRightCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) Boolean
 
 clearEntireLine :: forall r. Writable r -> Effect Boolean
 clearEntireLine stream = runEffectFn1 clearEntireLineImpl stream
 
-foreign import clearEntireLineImpl :: forall r. EffectFn1 (Writable r) (Boolean)
+foreign import clearEntireLineImpl :: forall r. EffectFn1 (Writable r) Boolean
 
 clearEntireLine' :: forall r. Writable r -> Effect Unit -> Effect Boolean
 clearEntireLine' stream cb = runEffectFn2 clearEntireLineCbImpl stream cb
 
-foreign import clearEntireLineCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) (Boolean)
+foreign import clearEntireLineCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) Boolean
 
 clearScreenDown :: forall r. Writable r -> Effect Boolean
 clearScreenDown stream = runEffectFn1 clearScreenDownImpl stream
 
-foreign import clearScreenDownImpl :: forall r. EffectFn1 (Writable r) (Boolean)
+foreign import clearScreenDownImpl :: forall r. EffectFn1 (Writable r) Boolean
 
 clearScreenDown' :: forall r. Writable r -> Effect Unit -> Effect Boolean
 clearScreenDown' stream cb = runEffectFn2 clearScreenDownCbImpl stream cb
 
-foreign import clearScreenDownCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) (Boolean)
+foreign import clearScreenDownCbImpl :: forall r. EffectFn2 (Writable r) (Effect Unit) Boolean
 
 cursorToX :: forall r. Writable r -> Int -> Effect Boolean
 cursorToX stream x = runEffectFn2 cursorToXImpl stream x
 
-foreign import cursorToXImpl :: forall r. EffectFn2 (Writable r) (Int) (Boolean)
+foreign import cursorToXImpl :: forall r. EffectFn2 (Writable r) Int Boolean
 
 cursorToX' :: forall r. Writable r -> Int -> Effect Unit -> Effect Boolean
 cursorToX' stream x cb = runEffectFn3 cursorToXCbImpl stream x cb
 
-foreign import cursorToXCbImpl :: forall r. EffectFn3 (Writable r) (Int) (Effect Unit) (Boolean)
+foreign import cursorToXCbImpl :: forall r. EffectFn3 (Writable r) Int (Effect Unit) Boolean
 
 cursorToXY :: forall r. Writable r -> Int -> Int -> Effect Boolean
 cursorToXY stream x y = runEffectFn3 cursorToXYImpl stream x y
 
-foreign import cursorToXYImpl :: forall r. EffectFn3 (Writable r) (Int) (Int) (Boolean)
+foreign import cursorToXYImpl :: forall r. EffectFn3 (Writable r) Int Int Boolean
 
 cursorToXY' :: forall r. Writable r -> Int -> Int -> Effect Unit -> Effect Boolean
 cursorToXY' stream x y cb = runEffectFn4 cursorToXYCbImpl stream x y cb
 
-foreign import cursorToXYCbImpl :: forall r. EffectFn4 (Writable r) (Int) (Int) (Effect Unit) (Boolean)
+foreign import cursorToXYCbImpl :: forall r. EffectFn4 (Writable r) Int Int (Effect Unit) Boolean
 
 emitKeyPressEvents :: forall w. Readable w -> Effect Unit
 emitKeyPressEvents stream = runEffectFn1 emitKeyPressEventsImpl stream
 
-foreign import emitKeyPressEventsImpl :: forall w. EffectFn1 (Readable w) (Unit)
+foreign import emitKeyPressEventsImpl :: forall w. EffectFn1 (Readable w) Unit
 
 emitKeyPressEvents' :: forall w. Readable w -> Interface -> Effect Unit
 emitKeyPressEvents' stream iface = runEffectFn2 emitKeyPressEventsIfaceImpl stream iface
 
-foreign import emitKeyPressEventsIfaceImpl :: forall w. EffectFn2 (Readable w) (Interface) (Unit)
+foreign import emitKeyPressEventsIfaceImpl :: forall w. EffectFn2 (Readable w) Interface Unit
 
 moveCursorXY :: forall r. Writable r -> Int -> Int -> Effect Boolean
 moveCursorXY stream x y = runEffectFn3 moveCursorXYImpl stream x y
 
-foreign import moveCursorXYImpl :: forall r. EffectFn3 (Writable r) (Int) (Int) (Boolean)
+foreign import moveCursorXYImpl :: forall r. EffectFn3 (Writable r) Int Int Boolean
 
 moveCursorXY' :: forall r. Writable r -> Int -> Int -> Effect Unit -> Effect Boolean
 moveCursorXY' stream x y cb = runEffectFn4 moveCursorXYCbImpl stream x y cb
 
-foreign import moveCursorXYCbImpl :: forall r. EffectFn4 (Writable r) (Int) (Int) (Effect Unit) (Boolean)
+foreign import moveCursorXYCbImpl :: forall r. EffectFn4 (Writable r) Int Int (Effect Unit) Boolean
