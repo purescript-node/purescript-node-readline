@@ -2,23 +2,26 @@
 
 import readline from "node:readline";
 
-export const createInterfaceImpl = (options) => readline.createInterface({
-  input: options.input,
-  output: options.output,
-  completer: options.completer && (line => {
-    const res = options.completer(line)();
-    return [res.completions, res.matched];
-  }),
-  terminal: options.terminal,
-  history: options.history,
-  historySize: options.historySize,
-  removeHistoryDuplicates: options.removeHistoryDuplicates,
-  prompt: options.prompt,
-  crlfDelay: options.crlfDelay,
-  escapeCodeTimeout: options.escapeCodeTimeout,
-  tabSize: options.tabSize,
-  signal: options.signal
-});
+export const createInterfaceImpl = (options) =>
+  readline.createInterface({
+    input: options.input,
+    output: options.output,
+    completer:
+      options.completer &&
+      ((line) => {
+        const res = options.completer(line)();
+        return [res.completions, res.matched];
+      }),
+    terminal: options.terminal,
+    history: options.history,
+    historySize: options.historySize,
+    removeHistoryDuplicates: options.removeHistoryDuplicates,
+    prompt: options.prompt,
+    crlfDelay: options.crlfDelay,
+    escapeCodeTimeout: options.escapeCodeTimeout,
+    tabSize: options.tabSize,
+    signal: options.signal,
+  });
 
 export const closeImpl = (rl) => rl.close();
 export const pauseImpl = (rl) => rl.pause();
