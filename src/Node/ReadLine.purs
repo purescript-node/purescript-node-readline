@@ -376,7 +376,7 @@ type KeySequenceObj =
   }
 
 writeKey :: KeySequenceObj -> Interface -> Effect Unit
-writeKey keySeq iface = runEffectFn2 writeKeyImpl iface keySeq 
+writeKey keySeq iface = runEffectFn2 writeKeyImpl iface keySeq
 
 foreign import writeKeyImpl :: EffectFn2 Interface KeySequenceObj Unit
 
